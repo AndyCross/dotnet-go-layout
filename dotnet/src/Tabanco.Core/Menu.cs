@@ -24,7 +24,7 @@ public sealed class Menu
     {
         using var stream = typeof(Menu).Assembly.GetManifestResourceStream("Tabanco.Core.menu.json")
             ?? throw new InvalidOperationException("menu.json is not embedded");
-        var items = JsonSerializer.Deserialize<List<Item>>(stream, Json.Options)
+        var items = JsonSerializer.Deserialize(stream, Json.Context.Items)
             ?? throw new InvalidOperationException("menu.json is empty");
         return new Menu(items);
     });

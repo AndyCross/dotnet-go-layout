@@ -9,8 +9,6 @@ namespace Tabanco.Core.Storage;
 /// </summary>
 public sealed class FileTabStore(string path) : ITabStore
 {
-    private static readonly JsonSerializerOptions s_indented = new(Json.Options) { WriteIndented = true };
-
     public bool TryGet(string name, [NotNullWhen(true)] out Tab? tab) => Load().TryGetValue(name, out tab);
 
     public void Put(Tab tab)
@@ -35,9 +33,9 @@ public sealed class FileTabStore(string path) : ITabStore
 
     private Dictionary<string, Tab> Load() =>
         File.Exists(path)
-            ? JsonSerializer.Deserialize<Dictionary<string, Tab>>(File.ReadAllText(path), Json.Options) ?? []
+            ? JsonSerializer.Deserialize(File.ReadAllText(path), Json.Context.Tabs) ?? []
             : [];
 
     private void Save(Dictionary<string, Tab> tabs) =>
-        File.WriteAllText(path, JsonSerializer.Serialize(tabs, s_indented) + "\n");
+        File.WriteAllText(path, JsonSerializer.Serialize(tabs, Json.Indented.Tabs) + "\n");
 }

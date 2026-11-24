@@ -10,3 +10,4 @@ obj/
 
 # Both CLIs keep their tabs here by default
 chalk.json
+bench/bin/

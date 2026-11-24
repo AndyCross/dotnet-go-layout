@@ -1,3 +1,6 @@
 go 1.27.3
 
-use ./go
+use (
+	./go
+	./bench/runner
+)

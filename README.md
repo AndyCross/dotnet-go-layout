@@ -46,7 +46,9 @@ go/
     tab/             the rules: menu, tabs, chalk (tests beside them)
     store/           memory and file stores
     api/             the HTTP handler
-go.work              so an editor opened at the root finds the Go module
+bench/               a small, rather daft benchmark of the three builds of chalk
+  runner/            a second Go module: times each run from outside the container's app
+go.work              so an editor opened at the root finds both Go modules
 ```
 
 ## Run
@@ -90,6 +92,17 @@ Errors are `application/problem+json` with `title`, `status` and `detail`.
 `contract/http.json` is one evening at the bar as a list of requests and the
 exact answers expected. `go/internal/api` and `dotnet/tests/Tabanco.Api.Tests`
 both run it, so the two servers cannot drift apart without a test failing.
+
+## A daft benchmark
+
+`./bench/bench.sh` builds `chalk` three ways (Go, .NET on the JIT, .NET Native
+AOT), runs each 100 times under Docker showing one tab, and writes
+[bench/results.md](bench/results.md). It needs Docker and Go. The app does
+almost nothing, so this measures start-up and little else.
+
+The .NET builds use the current SDK image rather than the SDK in
+`global.json`: Native AOT on the 10.0.101 SDK uses a native compiler with a
+known vulnerability (GHSA-p3jp-9v83-76w9), and NuGet's audit stops the build.
 
 ## CI
 
