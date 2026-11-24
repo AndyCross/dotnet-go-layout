@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Tabanco.Api/Tabanco.Api.csproj" />
+    <Project Path="src/Tabanco.Cli/Tabanco.Cli.csproj" />
+    <Project Path="src/Tabanco.Core/Tabanco.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Tabanco.Api.Tests/Tabanco.Api.Tests.csproj" />
+    <Project Path="tests/Tabanco.Core.Tests/Tabanco.Core.Tests.csproj" />
+  </Folder>
+</Solution>

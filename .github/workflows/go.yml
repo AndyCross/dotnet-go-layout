@@ -1,0 +1,21 @@
+name: go
+on:
+  pull_request:
+    paths: ["go/**", "contract/**", ".github/workflows/go.yml"]
+  push:
+    branches: [main]
+    paths: ["go/**", "contract/**", ".github/workflows/go.yml"]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: go
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go/go.mod
+          cache-dependency-path: go/go.mod
+      - run: go vet ./...
+      - run: go test ./...

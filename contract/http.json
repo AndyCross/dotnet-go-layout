@@ -1,0 +1,96 @@
+{
+  "about": "One evening at the bar, in order, against a fresh server. Both test suites (go/internal/api and dotnet/tests/Tabanco.Api.Tests) send every request and expect exactly this status and body. JSON bodies are compared as values, text bodies byte for byte.",
+  "steps": [
+    { "say": "nobody is in yet",
+      "method": "GET", "path": "/tabs",
+      "status": 200, "json": [] },
+
+    { "say": "Mari opens a tab",
+      "method": "POST", "path": "/tabs", "body": { "name": "Mari" },
+      "status": 201, "location": "/tabs/Mari",
+      "json": { "name": "Mari", "lines": [], "total": 0 } },
+
+    { "say": "a tab needs a name",
+      "method": "POST", "path": "/tabs", "body": { "name": "  " },
+      "status": 400, "json": { "title": "Bad Request", "status": 400, "detail": "a tab needs a name" } },
+
+    { "say": "one tab per name",
+      "method": "POST", "path": "/tabs", "body": { "name": "Mari" },
+      "status": 409, "json": { "title": "Conflict", "status": 409, "detail": "Mari already has a tab open" } },
+
+    { "say": "la penúltima before anything has been poured",
+      "method": "POST", "path": "/tabs/Mari/penultima",
+      "status": 409, "json": { "title": "Conflict", "status": 409, "detail": "nothing to repeat yet: order a drink first" } },
+
+    { "say": "first round",
+      "method": "POST", "path": "/tabs/Mari/rounds", "body": { "items": ["fino", "fino", "chicharrones"] },
+      "status": 200,
+      "json": { "name": "Mari", "total": 800, "lines": [
+        { "item": "fino", "name": "Fino", "count": 2, "cents": 400 },
+        { "item": "chicharrones", "name": "Chicharrones", "count": 1, "cents": 400 } ] } },
+
+    { "say": "a round with something not on the menu marks nothing",
+      "method": "POST", "path": "/tabs/Mari/rounds", "body": { "items": ["px", "cerveza"] },
+      "status": 400, "json": { "title": "Bad Request", "status": 400, "detail": "nothing called \"cerveza\" on the menu" } },
+
+    { "say": "an empty round",
+      "method": "POST", "path": "/tabs/Mari/rounds", "body": { "items": [] },
+      "status": 400, "json": { "title": "Bad Request", "status": 400, "detail": "a round needs at least one item" } },
+
+    { "say": "a body that is not JSON",
+      "method": "POST", "path": "/tabs/Mari/rounds", "raw": "fino please",
+      "status": 400, "json": { "title": "Bad Request", "status": 400, "detail": "the body must be JSON" } },
+
+    { "say": "second round",
+      "method": "POST", "path": "/tabs/Mari/rounds", "body": { "items": ["fino", "fino", "fino", "px"] },
+      "status": 200,
+      "json": { "name": "Mari", "total": 1650, "lines": [
+        { "item": "fino", "name": "Fino", "count": 5, "cents": 1000 },
+        { "item": "px", "name": "Pedro Ximénez", "count": 1, "cents": 250 },
+        { "item": "chicharrones", "name": "Chicharrones", "count": 1, "cents": 400 } ] } },
+
+    { "say": "la penúltima is another of the usual",
+      "method": "POST", "path": "/tabs/Mari/penultima",
+      "status": 200,
+      "json": { "poured": "fino", "bill": { "name": "Mari", "total": 1850, "lines": [
+        { "item": "fino", "name": "Fino", "count": 6, "cents": 1200 },
+        { "item": "px", "name": "Pedro Ximénez", "count": 1, "cents": 250 },
+        { "item": "chicharrones", "name": "Chicharrones", "count": 1, "cents": 400 } ] } } },
+
+    { "say": "the tab as it is chalked on the bar",
+      "method": "GET", "path": "/tabs/Mari/chalk",
+      "status": 200,
+      "text": "Mari\n  Fino           ||||/ |            6    12,00 €\n  Pedro Ximénez  |                  1     2,50 €\n  Chicharrones   |                  1     4,00 €\n  ----------------------------------------------\n  total                                  18,50 €\n" },
+
+    { "say": "Antonio comes in",
+      "method": "POST", "path": "/tabs", "body": { "name": "Antonio" },
+      "status": 201, "location": "/tabs/Antonio",
+      "json": { "name": "Antonio", "lines": [], "total": 0 } },
+
+    { "say": "two tabs open, in name order",
+      "method": "GET", "path": "/tabs",
+      "status": 200,
+      "json": [
+        { "name": "Antonio", "lines": [], "total": 0 },
+        { "name": "Mari", "total": 1850, "lines": [
+          { "item": "fino", "name": "Fino", "count": 6, "cents": 1200 },
+          { "item": "px", "name": "Pedro Ximénez", "count": 1, "cents": 250 },
+          { "item": "chicharrones", "name": "Chicharrones", "count": 1, "cents": 400 } ] } ] },
+
+    { "say": "Mari settles up",
+      "method": "DELETE", "path": "/tabs/Mari",
+      "status": 200,
+      "json": { "name": "Mari", "total": 1850, "lines": [
+        { "item": "fino", "name": "Fino", "count": 6, "cents": 1200 },
+        { "item": "px", "name": "Pedro Ximénez", "count": 1, "cents": 250 },
+        { "item": "chicharrones", "name": "Chicharrones", "count": 1, "cents": 400 } ] } },
+
+    { "say": "and her tab is gone",
+      "method": "GET", "path": "/tabs/Mari",
+      "status": 404, "json": { "title": "Not Found", "status": 404, "detail": "no tab open under that name" } },
+
+    { "say": "the menu, in board order",
+      "method": "GET", "path": "/menu",
+      "status": 200, "jsonFile": "menu.json" }
+  ]
+}

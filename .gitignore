@@ -1,0 +1,12 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+
+# Go
+/go/tabanco-api
+/go/chalk
+
+# Both CLIs keep their tabs here by default
+chalk.json

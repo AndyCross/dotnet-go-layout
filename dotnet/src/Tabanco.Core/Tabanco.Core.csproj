@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- The menu is embedded straight from the shared contract folder. -->
+    <EmbeddedResource Include="..\..\..\contract\menu.json" LogicalName="Tabanco.Core.menu.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Lets the tests call internal members, such as Chalk.Tally. -->
+    <InternalsVisibleTo Include="Tabanco.Core.Tests" />
+  </ItemGroup>
+
+</Project>

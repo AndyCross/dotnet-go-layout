@@ -1,0 +1,12 @@
+[
+  { "id": "fino",         "name": "Fino",          "kind": "drink", "price": 200 },
+  { "id": "manzanilla",   "name": "Manzanilla",    "kind": "drink", "price": 200 },
+  { "id": "amontillado",  "name": "Amontillado",   "kind": "drink", "price": 250 },
+  { "id": "oloroso",      "name": "Oloroso",       "kind": "drink", "price": 250 },
+  { "id": "palo-cortado", "name": "Palo Cortado",  "kind": "drink", "price": 300 },
+  { "id": "px",           "name": "Pedro Ximénez", "kind": "drink", "price": 250 },
+  { "id": "chicharrones", "name": "Chicharrones",  "kind": "tapa",  "price": 400 },
+  { "id": "payoyo",       "name": "Payoyo",        "kind": "tapa",  "price": 450 },
+  { "id": "chacinas",     "name": "Chacinas",      "kind": "tapa",  "price": 550 },
+  { "id": "tortilla",     "name": "Tortilla",      "kind": "tapa",  "price": 350 }
+]

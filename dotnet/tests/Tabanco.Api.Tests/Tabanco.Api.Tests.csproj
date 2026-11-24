@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <ProjectReference Include="..\..\src\Tabanco.Api\Tabanco.Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The contract shared with the Go tests, copied beside the test binary. -->
+    <None Include="..\..\..\contract\*.json" LinkBase="contract" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
