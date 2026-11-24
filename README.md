@@ -1,8 +1,8 @@
 # dotnet-go-layout
 
 One small app written twice, in .NET and in Go, in one repository, so the two
-project layouts can be read side by side. The write-up is on
-[stepinto.dev](https://stepinto.dev/).
+project layouts can be read side by side. The write-up is
+[How a .NET Solution Structure Maps to a Go Project Layout](https://stepinto.dev/go/dotnet-solution-structure-vs-go-project-layout/).
 
 The app is **Tabanco**: the chalk tab of a sherry bar in Jerez. A waiter chalks
 each round on the wooden bar in front of you, in tally marks, and adds it up
